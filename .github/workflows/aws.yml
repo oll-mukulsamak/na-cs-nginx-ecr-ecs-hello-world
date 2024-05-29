@@ -1,0 +1,48 @@
+# This workflow will build and push a new container image to Amazon ECR,
+# and then will deploy a new task definition to Amazon ECS, when there is a push to the "main" branch.
+
+
+name: Deploy to Amazon ECS
+
+on:
+    push:
+      branches: [ main ]
+    pull_request:
+      branches: [ main ]
+
+    
+env:
+    AWS_REGION: us-east-1                             # set this to your preferred AWS region, e.g. us-west-1
+    ECR_REPOSITORY: na-cs-nginx-ecr-ecs-hello-world   # set this to your Amazon ECR repository name
+    ECS_SERVICE: na-cs-nginx-ecr-ecs-hello-world      # set this to your Amazon ECS service name
+    ECS_CLUSTER: na-cs-nginx-ecr-ecs-hello-world      # set this to your Amazon ECS cluster name
+    ECS_TASK_DEFINITION: .github/workflows/task-definition.json      # set this to the path to your Amazon ECS task definition # file, e.g. .aws/task-definition.json
+    CONTAINER_NAME: na-cs-nginx-ecr-ecs-hello-world   # set this to the name of the container in the
+                                               # containerDefinitions section of your task definition
+
+permissions:
+    id-token: write
+    contents: read # This is required for actions/checkout@v2
+
+jobs:
+    aws_ecr_dockerfile_deploy:
+        name: DeployAWS ecr deploy- A job that deploys a image container using a aws_ecr_dockerfile_deploy
+        runs-on: ubuntu-latest
+        environment: production
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                role-to-assume: ########################### # Update the ARN of the IAM role
+                role-session-name: Github
+                aws-region: ${{ env.AWS_REGION }}
+
+            - name: Login to Amazon ECR
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v1
+
+            - name: Get the output status
+              run: echo "${{ steps.deploy.outputs.status }}"
