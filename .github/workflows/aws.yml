@@ -34,7 +34,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
             - name: Configure AWS credentials
-              uses: aws-actions/configure-aws-credentials@v1
+              uses: aws-actions/configure-aws-credentials@v3
               with:
                 role-to-assume: arn:aws:iam::533267274056:role/muks-github ########################### # Update the ARN of the IAM role
                 role-session-name: muks-github
