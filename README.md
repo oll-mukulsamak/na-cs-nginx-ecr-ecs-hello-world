@@ -11,6 +11,6 @@ This is a pipeline demo project for nginx based simple hello world and deploymen
   * `docker run -d --rm -p 8888:80 na-cs-nginx-ecr-ecs-hello-world` - This should run the image in a container. **Please check the running containers**
   * **Please feel free to change the port from `8888` to whichever port suits your requirement**,
   * `docker ps` or `docker ps -a` - This should give you all containers those are running,
-  * You should be able to see the page in web browser by going to localhost:8080,
+  * You should be able to see the page in web browser by going to localhost:8888,
   * This completes the local testing,
 * 
